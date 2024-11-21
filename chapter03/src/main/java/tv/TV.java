@@ -22,7 +22,7 @@ public class TV {
 
 	public void status() {
 		System.out.print("TV [channel=" + channel + ", volume=" + volume + ", power=");
-		
+
 		if (power) {
 			System.out.println("on]");
 		} else {
@@ -42,14 +42,14 @@ public class TV {
 				System.out.println("TV가 이미 켜져있습니다.");
 				return;
 			}
-			
+
 			power = true;
 		} else {
 			if (power == false) {
 				System.out.println("TV가 이미 꺼져있습니다.");
 				return;
 			}
-			
+
 			power = false;
 		}
 	}
@@ -58,20 +58,23 @@ public class TV {
 		if (!power) {
 			isPower();
 		}
-		
-		if (channel > 255 || channel < 1) {
-			System.out.println("유효하지 않은 채널입니다.");
-			return;
+
+		if (channel > 255) {
+			System.out.println("유효하지 않은 채널입니다. 0 채널로 설정합니다.");
+			this.channel = 0;
+		} else if (channel < 1) {
+			System.out.println("유효하지 않은 채널입니다. 255 채널로 설정합니다.");
+			this.channel = 255;
+		} else {
+			this.channel = channel;
 		}
-		
-		this.channel = channel;
 	}
 
 	public void channel(boolean up) {
 		if (!power) {
 			isPower();
 		}
-		
+
 		if (up) {
 			if (channel >= 255) {
 				channel = 1;
@@ -86,25 +89,28 @@ public class TV {
 			}
 		}
 	}
-	
+
 	public void volume(int volume) {
 		if (!power) {
 			isPower();
 		}
-		
-		if (volume > 100 || volume < 0) {
-			System.out.println("유효하지 않은 볼륨입니다.");
-			return;
+
+		if (volume > 100) {
+			System.out.println("유효하지 않은 볼륨입니다. 1 볼륨으로 설정합니다.");
+			this.volume = 0;
+		} else if (volume < 0) {
+			System.out.println("유효하지 않은 볼륨입니다. 100 볼륨으로 설정합니다.");
+			this.volume = 100;
+		} else {
+			this.volume = volume;
 		}
-		
-		this.volume = volume;
 	}
-	
+
 	public void volume(boolean up) {
 		if (!power) {
 			isPower();
 		}
-		
+
 		if (up) {
 			if (volume >= 100) {
 				volume = 1;
