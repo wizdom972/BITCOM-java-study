@@ -1,4 +1,4 @@
-package paint;
+package com.poscodx.paint.point;
 
 public class Point {
 	private int x;
