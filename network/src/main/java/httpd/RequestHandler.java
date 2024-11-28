@@ -59,14 +59,11 @@ public class RequestHandler extends Thread {
 			} else {
 				// methods: POST, DELETE, PUT, HEAD, CONNECT, ...
 				// 여기서는 무시(400 Bad Request)
+				outputStream.write("HTTP/1.1 400 Bad Request\r\n".getBytes("UTF-8"));
+				outputStream.write("Content-Type: text/html; charset=utf-8\r\n".getBytes("UTF-8"));
+				outputStream.write("\r\n".getBytes());
+				outputStream.write("<h1>400 Bad Request</h1>".getBytes("UTF-8"));
 			}
-
-			// 예제 응답입니다.
-			// 서버 시작과 테스트를 마친 후, 주석 처리 합니다.
-//			outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
-//			outputStream.write( "Content-Type:text/html; charset=utf-8\r\n".getBytes( "UTF-8" ) );
-//			outputStream.write( "\r\n".getBytes() );
-//			outputStream.write( "<h1>이 페이지가 잘 보이면 실습과제 SimpleHttpServer를 시작할 준비가 된 것입니다.</h1>".getBytes( "UTF-8" ) );
 
 		} catch (Exception ex) {
 			consoleLog("error:" + ex);
@@ -91,8 +88,10 @@ public class RequestHandler extends Thread {
 		File file = new File("./webapp" + url);
 		if (!file.exists()) {
 			// 404 response
-			os.write("".getBytes());
-			
+			os.write("HTTP/1.1 404 Not Found\r\n".getBytes("UTF-8"));
+			os.write("Content-Type: text/html; charset=utf-8\r\n".getBytes("UTF-8"));
+			os.write("\r\n".getBytes());
+			os.write("<h1>404 Not Found</h1>".getBytes("UTF-8"));
 			return;
 		}
 
