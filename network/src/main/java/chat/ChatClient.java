@@ -1,14 +1,12 @@
 package chat;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Scanner;
 
 public class ChatClient {
@@ -17,6 +15,9 @@ public class ChatClient {
 	public static void main(String[] args) {
 		Scanner scanner = null;
 		Socket socket = null;
+
+		Encoder encode = Base64.getEncoder();
+
 		try {
 			// 1. 키보드 연결
 			scanner = new Scanner(System.in);
@@ -29,7 +30,6 @@ public class ChatClient {
 
 			// 4. reader/writer 생성
 			PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 
 			// 5. join 프로토콜
 			System.out.print("닉네임>>");
@@ -47,16 +47,17 @@ public class ChatClient {
 
 				if ("quit".equals(input) == true) {
 					// 8. quit 프로토콜 처리
+					printWriter.println("quit:" + nickname);
 					break;
-				} else if("".equals(input)) {
+				} else if ("".equals(input)) {
 					System.out.println();
 					continue;
 				} else {
 					// 9. 메시지 처리
-					String message = bufferedReader.readLine();
-					
-					//base 64로 인코딩 하기
-					printWriter.println("message:" + message);
+					byte[] encodeByte = encode.encode((nickname + ":" + input).getBytes());
+
+					printWriter.println("message:" + new String(encodeByte));
+					printWriter.flush();
 				}
 			}
 
@@ -81,7 +82,7 @@ public class ChatClient {
 
 	}
 
-	private static void log(String message) {
+	public static void log(String message) {
 		System.out.println("[Chat client] " + message + " ");
 
 	}
