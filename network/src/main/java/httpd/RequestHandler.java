@@ -10,8 +10,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Files;
 
+import javax.print.Doc;
+
 public class RequestHandler extends Thread {
 	private Socket socket;
+	private final String DOCUMENT_ROOT = "./webapp";
 
 	public RequestHandler(Socket socket) {
 		this.socket = socket;
@@ -85,7 +88,7 @@ public class RequestHandler extends Thread {
 			url = "/index.html";
 		}
 
-		File file = new File("./webapp" + url);
+		File file = new File(DOCUMENT_ROOT + url);
 		if (!file.exists()) {
 			// 404 response
 			os.write("HTTP/1.1 404 Not Found\r\n".getBytes("UTF-8"));
@@ -99,7 +102,7 @@ public class RequestHandler extends Thread {
 		byte[] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 
-		os.write("HTTP/1.1 200 OK\r\n".getBytes("UTF-8"));
+		os.write((protocol + " 200 OK\r\n").getBytes("UTF-8"));
 		os.write(("Content-Type:" + contentType + "; charset=utf-8\r\n").getBytes("UTF-8"));
 		os.write("\r\n".getBytes());
 		os.write(body);
