@@ -48,6 +48,8 @@ public class TCPServer {
 					System.out.println("[server] receive:" + data);
 					
 					// 6. 데이터 쓰기
+					// SO_TIMEOUT 
+					
 					os.write(data.getBytes("utf-8"));
 				}
 
