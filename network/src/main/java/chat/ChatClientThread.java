@@ -32,7 +32,6 @@ public class ChatClientThread extends Thread {
 					break;
 				}
 				
-				ChatClient.log(request);
 				
 				// 4. 프로토콜 분석
 				String[] tokens = request.split(":");

@@ -41,13 +41,10 @@ public class ChatServerThread extends Thread {
 					doQuit(printwriter);
 					break;
 				}
-				
-				ChatServer.log("thread" + request);
 
 				// 4. 프로토콜 분석
 
 				String[] tokens = request.split(":");
-				
 
 				if ("join".equals(tokens[0])) {
 					doJoin(tokens[1], printwriter);
@@ -56,7 +53,7 @@ public class ChatServerThread extends Thread {
 					doMessage(tokens[1], printwriter);
 
 				} else if ("quit".equals(tokens[0])) {
-					doQuit(printwriter);
+					ChatServer.log(tokens[1]);
 
 				} else {
 					ChatServer.log("에러: 알수 없는 요청 (" + tokens[0] + ")");
@@ -86,7 +83,7 @@ public class ChatServerThread extends Thread {
 
 		PrintWriter printWriter = (PrintWriter) writer;
 
-		String data = "join:"+ nickname +"님이 참여하였습니다.";
+		String data = "join:" + nickname + "님이 참여하였습니다.";
 		broadcast(data, writer);
 
 		/* writer pool에 저장 */
@@ -100,21 +97,19 @@ public class ChatServerThread extends Thread {
 
 	private void addWriter(Writer writer) {
 		synchronized (listWriters) {
-		    if (!listWriters.contains(writer)) {
-		        listWriters.add(writer);
-		    }
+			if (!listWriters.contains(writer)) {
+				listWriters.add(writer);
+			}
 		}
 	}
 
-	private void broadcast(String data, Writer w) {	
-		synchronized (listWriters) {	
-			ChatServer.log(data);
-			
+	private void broadcast(String data, Writer w) {
+		synchronized (listWriters) {
 			for (Writer writer : listWriters) {
 				if (writer.equals(w)) {
 					continue;
 				}
-				
+
 				PrintWriter printWriter = (PrintWriter) writer;
 				printWriter.println(data);
 				printWriter.flush();
@@ -124,19 +119,21 @@ public class ChatServerThread extends Thread {
 
 	private void doMessage(String message, Writer writer) {
 		PrintWriter printWriter = (PrintWriter) writer;
-		
+
 		String data = "message:" + message;
-		
+
 		printWriter.println(data);
 		broadcast(data, writer);
 
 	}
 
 	private void doQuit(Writer writer) {
-		removeWriter(writer);
+		synchronized (listWriters) {
+			removeWriter(writer);
+		}
 
-		String data = nickname + "님이 퇴장 하였습니다.";
-		broadcast(data, writer);
+		String data = "quit:" + nickname + "님이 퇴장 하였습니다.";
+		broadcast(data, null);
 	}
 
 	private void removeWriter(Writer writer) {
