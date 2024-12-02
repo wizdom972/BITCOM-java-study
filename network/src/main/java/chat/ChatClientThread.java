@@ -44,7 +44,7 @@ public class ChatClientThread extends Thread {
 
 					System.out.println(tokens[1]);
 
-				} else if ("message".equals(tokens[0])) {
+				} else if ("message".equals(tokens[0])) {			
 					byte[] decodeByte = decode.decode(tokens[1]);
 					String decodeString = new String(decodeByte);
 

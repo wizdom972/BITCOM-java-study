@@ -84,7 +84,7 @@ public class ChatServerThread extends Thread {
 		PrintWriter printWriter = (PrintWriter) writer;
 
 		String data = "join:" + nickname + "님이 참여하였습니다.";
-		broadcast(data, writer);
+		broadcast(data, null);
 
 		/* writer pool에 저장 */
 		addWriter(writer);
