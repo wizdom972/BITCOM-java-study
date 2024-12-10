@@ -23,32 +23,34 @@ group by gender;
 
 -- 문제4.
 -- 현재(to_date='9999-01-01'), 근무하고 있는 직원 수는 몇 명입니까? (salaries 테이블을 사용) 
-select count(emp_no)
+select count(distinct emp_no)
 from salaries
 where to_date='9999-01-01';
 
    
 -- 문제5.
 -- 부서는 총 몇 개가 있나요?
-select count(dept_no)
+select count(distinct dept_no)
 from departments;
 
   
 -- 문제6.
 -- 현재 부서 매니저는 몇 명이나 있나요?(역임 매너저는 제외)
-select count(emp_no) from dept_manager;
+select count(distinct emp_no)
+from dept_manager
+where to_date='9999-01-01';
 
  
 -- 문제7.
 -- 전체 부서를 출력하려고 합니다. 순서는 부서이름이 긴 순서대로 출력해 보세요.
-select dept_name
+select distinct dept_name
 from departments
 order by length(dept_name) desc;
 
 
 -- 문제8.
 -- 현재 급여가 120,000이상 받는 사원은 몇 명이나 있습니까?
-select count(emp_no)
+select count(distinct emp_no)
 from salaries
 where salary >= 120000;
 
@@ -62,7 +64,7 @@ order by length(title) desc;
 
 -- 문제10
 -- 현재 Engineer 직책의 사원은 총 몇 명입니까?
-select count(emp_no)
+select count(distinct emp_no)
 from titles
 where title = "Engineer";
 
