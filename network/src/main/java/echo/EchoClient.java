@@ -13,7 +13,7 @@ import java.net.SocketException;
 import java.util.Scanner;
 
 public class EchoClient {
-	private static final String SERVER_IP = "192.168.0.10";
+	private static final String SERVER_IP = "192.168.0.123";
 
 	public static void main(String[] args) {
 		Scanner sc = null;
@@ -26,7 +26,7 @@ public class EchoClient {
 			socket = new Socket();
 
 			// 2. 서버연결
-			socket.connect(new InetSocketAddress(SERVER_IP, 60000));
+			socket.connect(new InetSocketAddress(SERVER_IP, 8080));
 
 			// 3. IO Stream 받아오기
 			InputStream is = socket.getInputStream();
