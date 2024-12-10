@@ -40,5 +40,5 @@ where to_date='9999-01-01';
 
 -- 문제6.
 -- 현재, 근무중인 사원 중 나이가 제일 어린 사원과 제일 많은 사원의 나이를 각각 출력하세요.
-select datediff('9999-01-01', max(birth_date)), datediff('9999-01-01', min(birth_date))
+select year('9999-01-01') - year(max(birth_date)), year('9999-01-01') - year(min(birth_date))
 from employees;
