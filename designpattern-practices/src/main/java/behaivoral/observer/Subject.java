@@ -1,4 +1,4 @@
-package behaioral.observer;
+package behaivoral.observer;
 
 import java.util.ArrayList;
 import java.util.List;
